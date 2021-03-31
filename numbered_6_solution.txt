@@ -1,0 +1,11 @@
+       
+ B  o  o  
+       
+ A  x  x  
+       
+ B  o  A  
+       
+ A  x  o  
+       
+ B  o  o  
+       
