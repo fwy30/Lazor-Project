@@ -9,7 +9,6 @@ def read_file(file_name):
     cc = 0  # number of refract blocks
     xc = 0
     oc = 0
-    sc = 0
 
     file = open(file_name, "r")
     lines = file.readlines()
@@ -43,10 +42,7 @@ def read_file(file_name):
             elif p == 'C':
                 cc = cc + 1
                 grid[2 * y - 1][2 * x - 1] = 5
-            else:
-                sc = sc + 1
 
-    # print(grid)
     if list(filter(re.compile('A \\d').match, lines)) != []:
         Ablock = int(list(filter(re.compile('A').match, lines))[0][2])
     else:
@@ -88,17 +84,6 @@ class lazor:
         self.point = point
         self.pointnum = int(len(point) / 2)
         self.lazornum = int(len(lazorposition) / 4)
-
-    def printer(self):
-        print("grid:", self.grid)
-        print("Ablock:", self.Ablock)
-        print("Bblock:", self.Bblock)
-        print("Cblock:", self.Cblock)
-        print("lazorposition:", self.lazorposition)
-        print("point:", self.point)
-        print("pointnum:", self.pointnum)
-        print("lazornum:", self.lazornum)
-        print('g', self.g)
 
     def lazorbeam(self):
         c = 0
@@ -149,11 +134,9 @@ class lazor:
             path.append(lo)
             while self.pos_chk(path[-1]) is True and path[-1][0] > 0 and path[-1][1] > 0:
                 path.append([path[-1][0] + di[0], path[-1][1] + di[1]])
-        #print(path)
         return path
 
     def block_in_path(self, path):
-        # print("b", path)
         block_path = []
         block_in_path = []
         print(len(path))
@@ -189,8 +172,6 @@ class lazor:
         totblock = a + c
         avaliblepos = self.availble_position()
         comb = list(combinations(avaliblepos, totblock))
-        numseq = list(range(totblock))
-        #print(totblock, a, numseq, len(avaliblepos))
         for i in range(len(comb)):
             block_position = comb[i]
             block_comb = list(combinations(block_position, a))
@@ -198,25 +179,16 @@ class lazor:
                 g = [list(x) for x in self.grid]
                 abp = block_comb[j]
                 cc = cc + 1
-                # print(block_position, 'a', block_comb[j])
                 for k in range(a):
                     x, y = abp[k]
                     g[y][x] = 3
                 if c > 0:
-                    b_list = []
                     for bl in comb[i]:
                         if bl not in abp:
-                            # print('bl',bl)
                             bx, by = bl
                             g[by][bx] = 5
-                #print(g)
                 solution_set.append(g)
-        # print(x, y)
-        #print(len(block_comb) , len(comb))
-        #print(cc)
-        #print(len(solution_set))
         return solution_set
-
 
     def reflect_block_location(self, x, y, dx, dy):
         if y % 2 == 1:
@@ -232,10 +204,7 @@ class lazor:
         counter = 0
         pointnum = self.pointnum
         for i in range(len(location)):
-            #print(len(location))
-            #print(i)
             lazor_path = [location[i]]
-            #print('s', lazor_path)
             dx, dy = direction[i][0], direction[i][1]
             g = grid
             refract = False
@@ -245,81 +214,58 @@ class lazor:
             ydimension = len(grid)
             state = True
             while state is True:
-            # for i in range(1):
                 x = lazor_path[-1][0]
                 y = lazor_path[-1][1]
-                #print(x, y, "shit")
-                #if x != 0 and y != 0 and x < xdimension and y < ydimension:
                 if x >= 0 and y >= 0 and x < xdimension and y < ydimension:
-                    #print("yes")
-                    # print(x, y, dx, dy)
                     block = self.reflect_block_location(x, y, dx, dy)
-                    # print(block)
                     bx = block[0][0]
                     by = block[0][1]
-                    #print(bx, by, 'bb')
                     if self.pos_chk([bx, by]) is True:
-                    #if 1 + 1 == 2:
-
                         if g[by][bx] == 3:
                             dx = block[1][0]
                             dy = block[1][1]
                             nx = x + dx
                             ny = y + dy
-                            #print('Y')
                         elif g[by][bx] == 1 or g[by][bx] == 2:
-                            #print("a")
                             nx = x + dx
                             ny = y + dy
                         elif g[by][bx] == 5:
                             refract = True
-                            refractdir = self.reflect_block_location(x, y, dx, dy)
+                            refractdir = self.reflect_block_location(
+                                x, y, dx, dy)
                             rex = refractdir[1][0]
                             rey = refractdir[1][1]
-                            refractpos = [[x, y],[rex, rey]]
+                            refractpos = [[x, y], [rex, rey]]
                             nx = x + dx
                             ny = y + dy
-                            #print("5")
-                            #print(refract, refractpos, refractdir,"11", rex, rey)
                         elif g[by][bx] == 4:
-                            #nx = x
-                            #ny = y
                             state = False
                             break
                     else:
                         state = False
                     if self.pos_chk([nx, ny]) is True:
                         lazor_path.append([nx, ny])
-                        #print(lazor_path)
                 else:
                     state = False
             for element in lazor_path:
                 total_path.append(element)
         if refract is True:
-            #print('111')
             refract_path = self.refract(grid, refractpos)
             for rp in refract_path:
                 total_path.append(rp)
-        #print('rsnm', total_path)
-        #print('pp',pp)
-        # result = all(elem in total_path for elem in pp)
         for elem in pp:
             if elem in total_path:
-                #print("Yes", elem)
                 counter = counter + 1
             else:
                 counter = counter
-                # print("no", elem)
         if counter == pointnum:
             result = True
-        # print(result)
         return result, total_path
 
-    def refract (self, grids, refractpos):
+    def refract(self, grids, refractpos):
         location, direction = refractpos[0], refractpos[1]
         total_path = []
         grid = grids
-        #print(location, direction,'f')
         for i in range(len(location)):
             lazor_path = [location]
             dx, dy = direction[0], direction[1]
@@ -328,15 +274,12 @@ class lazor:
             ydimension = len(grid)
             state = True
             while state is True:
-            # for i in range(1):
                 x = lazor_path[-1][0]
                 y = lazor_path[-1][1]
                 if x != 0 and y != 0 and x < xdimension - 1 and y < ydimension - 1:
                     block = self.reflect_block_location(x, y, dx, dy)
-                    #print('n',block)
                     bx = block[0][0]
                     by = block[0][1]
-                    #if self.pos_ava([bx, by]) is True:
                     if g[by][bx] == 3 or g[by][bx] == 5:
                         dx = block[1][0]
                         dy = block[1][1]
@@ -349,28 +292,22 @@ class lazor:
                         state = False
                     if self.pos_chk([nx, ny]) is True:
                         lazor_path.append([nx, ny])
-                        #print(lazor_path)
                 else:
                     state = False
             for element in lazor_path:
                 total_path.append(element)
-        #print(total_path)
         return total_path
 
     def put_b_block(self, grid):
         grid = tuple(tuple(sub) for sub in grid)
         num = self.Bblock
-        #print(num, '1ga')
-        #print('gl', g)
         avaliblepos = []
         bbl = []
         for y in range(len(grid)):
             for x in range(len(grid[0])):
                 if grid[y][x] == 1:
                     avaliblepos.append([x, y])
-        #print('ss',avaliblepos)
         comb = list(combinations(avaliblepos, num))
-        #print(comb)
         for i in range(len(comb)):
             g = [list(x) for x in grid]
             for j in range(num):
@@ -378,70 +315,53 @@ class lazor:
                 by = comb[i][j][1]
                 g[by][bx] = 4
             bbl.append(g)
-        # print('123',bbl[-1])
         return bbl
 
+    def text(self, grid):
+        f = open('solution.txt', "w")
+        for y in range(len(grid)):
+            for x in range(len(grid[0])):
+                if grid[y][x] == 1:
+                    f.write('o')
+                elif grid[y][x] == 2:
+                    f.write('x')
+                elif grid[y][x] == 3:
+                    f.write('A')
+                elif grid[y][x] == 4:
+                    f.write('B')
+                elif grid[y][x] == 5:
+                    f.write('C')
+                elif grid[y][x] == 0:
+                    f.write('')
+                f.write(' ')
+            f.write("\n")
+        f.close()
+        return
+
+
 if __name__ == "__main__":
-    grid, block, lazorposition, point = read_file("yarn_5.bff")
+    # get the information from the bff file and use them as input to
+    # create lazor class object
+    grid, block, lazorposition, point = read_file("mad_7.bff")
     a = lazor(grid, block, lazorposition, point)
-    # a.printer()
+    # get all the possible configurations of the grid when consider
+    # only A and C blocks, B block does not change or continue path of
+    # lazor, so treat B block as additional block to put after getting
+    # solution grid (which mean all the target points) are in path
     solution_set = a.availble_grid()
-    cc = 0
-    cb = 0
+    # 
     for i in range(len(solution_set)):
         g = solution_set[i]
         result, path = a.path(g)
         if result is True:
             if a.Bblock == 0:
-                cc = cc + 1
-                print(g)
-                print(path)
-                #bip = a.block_in_path(path)
-                #print(bip)
-            #print(a.Bblock, 's')
+                print('The solution grid is', g)
+                a.text(g)
             elif a.Bblock != 0:
                 path_with_b = a.put_b_block(g)
-                #print('11232', len(path_with_b))
                 for j in range(len(path_with_b)):
-                    final_path = path_with_b[j]
-                    #print(final_path)
-                    TF, solution = a.path(final_path)
+                    B_grid = path_with_b[j]
+                    TF, solution = a.path(B_grid)
                     if TF is True:
-                        print(final_path)
-                        print(solution)
-                        cb = cb + 1
-
-
-    print('cc',cc)
-    print('cb',cb)
-    # tiny5
-    #g = [[0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 4, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [
-    #    0, 1, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 5, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0]]
-
-    #g = [[0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 4, 0, 3, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 5, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0]]
-    #g = [[0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 4, 0, 3, 0], [0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 5, 0, 3, 0], [0, 0, 0, 0, 0, 0, 0]]
-    #result = a.path(g)
-
-    #print(result)
-
-    # mad7
-    #grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 3, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 3, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 1, 0, 3, 0, 1, 0, 2, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 3, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 3, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    #if grid in solution_set:
-    #    print('aaaa')
-    #a.path(grid)
-    # a.check_solution(grid)
-    # a.refract(grid)
-    # print(a.reflect_block_location(4, 5, -1, -1))
-
-    # mad 7
-    # g = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 3, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-    # 6
-    # g = [[0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 2, 0, 2, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 3, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 2, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0]]
-    # print('23',a.path(g))
-    #if g in path_with_b:
-    #    print('gg')
-
-    # dark 1
-    #g = [[0, 0, 0, 0, 0, 0, 0], [0, 2, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 4, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 4, 0, 2, 0], [0, 0, 0, 0, 0, 0, 0]]
-    #print('23',a.path(g))
+                        print('The solution grid is', B_grid)
+                        a.text(B_grid)
