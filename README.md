@@ -1,5 +1,5 @@
 # Lazor Project
-by Fan Wu (fwu30@jhu.edu), Heon Joon Lee (hlee260@jhmi.edu), Vincent Clark (vclark19@jhu.edu)
+By Fan Wu (fwu30@jhu.edu), Heon Joon Lee (hlee260@jhmi.edu), Vincent Clark (vclark19@jhu.edu)
 EN 540.635 Software Carpentry
 
 The goal of this project is to use python automatically solve different levels of the Lazor game played on iOS or Android, and generate a text file with the solution.
@@ -15,7 +15,7 @@ A bff file is inputted and broken down to into different blocks represented by A
 
 The code will process the grid, type and number of blocks available, initial lazor position and direction, and list of target points.
 
-Information from the bff file is also used to generate a lazor class object which may calculate changes in lazor position and direction, check available positions, check and calculate interaction with A/B/C blocks, and edit the path of the lazor and movement of blocks.
+Information from the bff file is also used to generate a lazor class object which generate all possible configurations of the grid, then the lazor path of each configuration is generated, if all the target points are in the lazor path, the game is considered as solved.
 
 Finally, the code creates and writes in a text file (solution.txt) with a visual representation for where blocks should be for the solution.
 
@@ -23,18 +23,16 @@ Finally, the code creates and writes in a text file (solution.txt) with a visual
 Output for numbered_6.bff:
 
 ('The solution grid is', [[0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 2, 0, 2, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 3, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 2, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0]])
+
 [Finished in 0.2s]
 
 
 ## Note for sample
-Grid will start at top left being 0, 0
-Step size is by half blocks
-Thus, this leads to even numbers indicating
-the rows/columns between blocks, and odd numbers
-intersecting blocks.
+Grid will start at top left corner which is point grid[0][0], step size is by half blocks. Thus, this leads to even numbers indicating the rows/columns between blocks, and odd numbers means intersecting blocks. In each position of the grid, 0 represents not an block placing position (between the block or on the edge of the grid); 1 represents available space for block; 2 represents place where no blocks allowed; 3 represents fixed reflected block; 4 represents fixed opaque blocks, and 5 represents fixed refract block
 
 ## Sample solution file
 Output for solution.txt (for numbered_6.bff):
+
  B  o  o  
        
  A  x  x  
