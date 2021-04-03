@@ -3,6 +3,7 @@ by Fan Wu (fwu30@jhu.edu), Heon Joon Lee (hlee260@jhmi.edu), Vincent Clark (vcla
 EN 540.635 Software Carpentry
 
 The goal of this project is to use python automatically solve different levels of the Lazor game played on iOS or Android, and generate a text file with the solution.
+The goal of the game is to put the block in the grid to reflect and refract the lazor beam to change the path of lazor, and finally make the lazor go through all the target points, if this is achieved, the solution is considered as successful. 
 
 ## Instructions
 1. Download the 'lazor_project.py' file and make sure all bff files are in the same folder.
@@ -53,10 +54,11 @@ X - No blocks allowed
 O - Available space for block
 
 # test time (may change a little bit depends on computer):
-# mad_1: 0.2s
-# mad_4: 0.6s
-# mad_7: 6.2s
-# Tiny_5: 0.2s
-# yarn_5: 6.2s
-# dark_1: 0.1s
-# numbered_6: 0.2s
+mad_1: 0.2s
+mad_4: 0.6s
+mad_7: 6.2s
+tiny_5: 0.2s
+yarn_5: 6.2s
+dark_1: 0.1s
+numbered_6: 0.2s
+(note: all the test file has and only has one solution)
