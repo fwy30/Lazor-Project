@@ -58,11 +58,19 @@ X - No blocks allowed
 O - Available space for block
 
 ## test time (may change a little bit depends on computer):
+
 mad_1: 0.2s
+
 mad_4: 0.6s
+
 mad_7: 6.2s
+
 tiny_5: 0.2s
+
 yarn_5: 6.2s
+
 dark_1: 0.1s
+
 numbered_6: 0.2s
+
 (note: all the test file has and only has one solution)
