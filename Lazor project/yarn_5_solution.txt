@@ -1,0 +1,13 @@
+           
+ o  B  x  o  o  
+           
+ o  A  o  o  o  
+           
+ A  x  o  o  A  
+           
+ o  x  A  o  x  
+           
+ A  o  x  x  A  
+           
+ B  A  x  A  o  
+           
