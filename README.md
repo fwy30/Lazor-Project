@@ -7,7 +7,7 @@ The goal of the game is to put the block in the grid to reflect and refract the 
 
 ## Instructions
 1. Download the 'lazor_project.py' file and make sure all bff files are in the same folder.
-2. Enter the name of the .bff file that you want to solve into the code.
+2. Enter the name of the .bff file that you want to solve in the main block.
 3. Run the code, and a text file (solution.txt) of the solution with positions of the blocks will be generated.
 
 ## Process flow
