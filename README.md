@@ -48,9 +48,13 @@ Output for solution.txt (for numbered_6.bff):
 ## Notes for generated solutions:
 
 A - Reflect block
+
 B - Opaque block
+
 C - Refract block
+
 X - No blocks allowed
+
 O - Available space for block
 
 ## test time (may change a little bit depends on computer):
