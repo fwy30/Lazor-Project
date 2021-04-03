@@ -53,7 +53,7 @@ C - Refract block
 X - No blocks allowed
 O - Available space for block
 
-# test time (may change a little bit depends on computer):
+## test time (may change a little bit depends on computer):
 mad_1: 0.2s
 mad_4: 0.6s
 mad_7: 6.2s
