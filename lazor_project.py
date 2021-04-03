@@ -747,14 +747,17 @@ class lazor:
 if __name__ == "__main__":
     # get the information from the bff file and use them as input to
     # create lazor class object
-    grid, block, lazorposition, point = read_file("mad_7.bff")
+    grid, block, lazorposition, point = read_file("mad_1.bff")
     a = lazor(grid, block, lazorposition, point)
+
     # get all the possible configurations of the grid when consider
     # only A and C blocks, B block does not change or continue path of
     # lazor, so treat B block as additional block to put after getting
     # solution grid (which mean all the target points) are in path
     solution_set = a.availble_grid()
     # test every possible grid inside the solution set
+    # state_AC and state_B are indicators to show if there is a solution
+    state = False
     for i in range(len(solution_set)):
         # get the specific one testing grid
         g = solution_set[i]
@@ -766,6 +769,7 @@ if __name__ == "__main__":
             # if there is no opaque block, print the solution and make
             # solution text file
             if a.Bblock == 0:
+                state = True
                 print('The solution grid is', g)
                 a.text(g)
             # if there is opaque block, call the put_b_function to update
@@ -778,5 +782,8 @@ if __name__ == "__main__":
                     B_grid = path_with_b[j]
                     TF, solution = a.path(B_grid)
                     if TF is True:
+                        state = True
                         print('The solution grid is', B_grid)
                         a.text(B_grid)
+    if state is False:
+        print("This is no solution for this game.")
