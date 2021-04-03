@@ -21,10 +21,10 @@ Finally, the code creates and writes in a text file (solution.txt) with a visual
 
 ## Sample code
 Output for numbered_6.bff:
-'''
+
 ('The solution grid is', [[0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 2, 0, 2, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 3, 0], [0, 0, 0, 0, 0, 0, 0], [0, 3, 0, 2, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0], [0, 4, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0]])
 [Finished in 0.2s]
-'''
+
 
 ## Note for sample
 Grid will start at top left being 0, 0
@@ -57,7 +57,7 @@ X - No blocks allowed
 
 O - Available space for block
 
-## test time (may change a little bit depends on computer):
+## Test time (may change a little bit depends on computer):
 
 mad_1: 0.2s
 
